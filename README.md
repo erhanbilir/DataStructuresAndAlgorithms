@@ -2,6 +2,7 @@ EN/TR
 # 🧠 Data Structures and Algorithms in C++
 
 A collection of C++ implementations of core data structures and algorithms. Ideal for learning, reviewing, and demonstrating your knowledge. (EN)
+
 Temel veri yapıları ve algoritmaların C++ uygulamalarının bir koleksiyonu. Bilginizi öğrenmek, gözden geçirmek ve göstermek için idealdir. (TR)
 
 ## 📁 Contents
@@ -24,11 +25,13 @@ Temel veri yapıları ve algoritmaların C++ uygulamalarının bir koleksiyonu. 
 
 ### Prerequisites
 - A compiler with C++11 or higher support (GCC, Clang, MSVC) (EN)
+- 
 - C++11 veya üzeri destekli bir derleyici (GCC, Clang, MSVC) (TR)
 
 ### Build & Run
 ```bash
 # Compile and run all files       (EN)
+
 # Tüm dosyaları derleyip çalıştır (TR)
 g++ -std=c++11 *.cpp -o dsa_project
 ./dsa_project
