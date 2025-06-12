@@ -1,16 +1,17 @@
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
 class Node {
 public:
-	int deger;
+	int value;
 	Node* right;
 	Node* left;
 
-	Node(int deger)
+	Node(int value)
 	{
-		this->deger = deger;
+		this->value = value;
 		right = NULL;
 		left = NULL;
 	}
@@ -46,9 +47,9 @@ public:
 		delete node;
 	}
 
-	bool insertNode(int deger)
+	bool insertNode(int value)
 	{
-		Node* node = new Node(deger);
+		Node* node = new Node(value);
 
 		if (root == NULL)
 		{
@@ -60,14 +61,14 @@ public:
 			Node* tmp = root;
 			while (true)
 			{
-				if (node->deger == tmp->deger)
+				if (node->value == tmp->value)
 				{
-					cout << "Node zaten bulunuyor..." << endl;
+					cout << "Node already exists..." << endl;
 					delete node;
 					return false;
 				}
 
-				if (node->deger > tmp->deger)
+				if (node->value > tmp->value)
 				{
 					if (tmp->right == NULL)
 					{
@@ -96,7 +97,7 @@ public:
 		{
 			return;
 		}
-		cout << node->deger << endl;
+		cout << node->value << endl;
 		if (node->left != NULL)
 		{
 			cout << "/" << endl;
@@ -111,14 +112,49 @@ public:
 
 	}
 
+	void DFSPostOrderSearchPrintAllNodes(Node* node)
+	{
+		if (node == NULL)
+		{
+			return;
+		}
+		if (node->left != NULL)
+		{
+			DFSPostOrderSearchPrintAllNodes(node->left);
+		}
+		if (node->right != NULL)
+		{
+			DFSPostOrderSearchPrintAllNodes(node->right);
+		}
+		cout << node->value << ", ";
+
+	}
+
+	void DFSInOrderSearchPrintAllNodes(Node* node)
+	{
+		if (node == NULL)
+		{
+			return;
+		}
+		if (node->left != NULL)
+		{
+			DFSInOrderSearchPrintAllNodes(node->left);
+		}
+		cout << node->value << ", ";
+		if (node->right != NULL)
+		{
+			DFSInOrderSearchPrintAllNodes(node->right);
+		}
+	}
+
 	Node* DFSPreOrderSearch(Node* node, int value)
 	{
-		if(node == NULL || node->deger == value)
+		if(node == NULL || node->value == value)
 		{
 			return node;
 		}
 		// If the value is less than the current node's value, search in the left subtree
-		if( value < node->deger )
+		if( value < node->value )
 		{
 			return DFSPreOrderSearch(node->left, value);
 		}
@@ -128,13 +164,34 @@ public:
 		}
 	}
 
+	void BreadthFirstSearch()
+	{
+		queue<Node*> queue1;
+		queue1.push(root);
+
+		while (queue1.size() > 0)
+		{
+			Node* node = queue1.front();
+			queue1.pop();
+			cout << node->value << ", ";
+
+			if (node->left != NULL)
+			{
+				queue1.push(node->left);
+			}
+			if (node->right != NULL)
+			{
+				queue1.push(node->right);
+			}
+		}
+	}
 };
 
 int main()
 {
 	BinarySearchTree* bst = new BinarySearchTree();
 	bst->insertNode(52);
-	cout << "root: " << bst->root->deger << endl;
+	cout << "root: " << bst->root->value << endl;
 	bst->insertNode(27);
 	bst->insertNode(15);
 	bst->insertNode(30);
@@ -144,25 +201,30 @@ int main()
 
 	bst->insertNode(76);
 
-	cout << "son eklenen node: " << bst->root->right->left->right->deger << endl;
+	cout << "Last added node: " << bst->root->right->left->right->value << endl;
 
 	bst->insertNode(12);
 
-	cout << "son eklenen node: " << bst->root->left->left->left->deger << endl;
+	cout << "Last added node: " << bst->root->left->left->left->value << endl;
 	
 	bst->DFSPreOrderSearchPrintAllNodes(bst->root);
 	Node* ptr = bst->DFSPreOrderSearch(bst->root, 42);
 	if (ptr != NULL)
 	{
-		cout << "Aranan deger: " << ptr->deger << endl;
+		cout << "Expected value: " << ptr->value << endl;
 	}
 	else
 	{
-		cout << "Aranan deger bulunamadi" << endl;
+		cout << "Expected value not found" << endl;
 	}
 	delete ptr;
 
+	bst->DFSPostOrderSearchPrintAllNodes(bst->root);
+	cout << endl;
+	bst->DFSInOrderSearchPrintAllNodes(bst->root);
+	cout << endl;
+	bst->BreadthFirstSearch();
 	delete bst;
-	bst->DFSPreOrderSearchPrintAllNodes(bst->root);
+	//bst->DFSPreOrderSearchPrintAllNodes(bst->root);
 	return 0;
 }
